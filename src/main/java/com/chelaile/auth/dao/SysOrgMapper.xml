@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chelaile.auth.dao.SysOrgMapper">
+  <resultMap id="BaseResultMap" type="com.chelaile.auth.model.entity.SysOrg">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="city_id" jdbcType="VARCHAR" property="cityId" />
+    <result column="org_name" jdbcType="VARCHAR" property="orgName" />
+    <result column="org_no" jdbcType="VARCHAR" property="orgNo" />
+    <result column="org_parent" jdbcType="INTEGER" property="orgParent" />
+    <result column="org_level" jdbcType="INTEGER" property="orgLevel" />
+    <result column="data_permission" jdbcType="INTEGER" property="dataPermission" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="memo" jdbcType="VARCHAR" property="memo" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_user" jdbcType="VARCHAR" property="updateUser" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, city_id, org_name, org_no, org_parent, org_level, data_permission, status, memo, 
+    create_time, update_user, update_time
+  </sql>
+  <select id="selectByExample" parameterType="com.chelaile.auth.model.entity.SysOrgExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from sys_org
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sys_org
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from sys_org
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.chelaile.auth.model.entity.SysOrgExample">
+    delete from sys_org
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.chelaile.auth.model.entity.SysOrg" keyProperty="id" useGeneratedKeys="true">
+    insert into sys_org (id, city_id, org_name, 
+      org_no, org_parent, org_level, 
+      data_permission, status, memo, 
+      create_time, update_user, update_time
+      )
+    values (#{id,jdbcType=INTEGER}, #{cityId,jdbcType=VARCHAR}, #{orgName,jdbcType=VARCHAR}, 
+      #{orgNo,jdbcType=VARCHAR}, #{orgParent,jdbcType=INTEGER}, #{orgLevel,jdbcType=INTEGER}, 
+      #{dataPermission,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{memo,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateUser,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.chelaile.auth.model.entity.SysOrg">
+    insert into sys_org
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="cityId != null">
+        city_id,
+      </if>
+      <if test="orgName != null">
+        org_name,
+      </if>
+      <if test="orgNo != null">
+        org_no,
+      </if>
+      <if test="orgParent != null">
+        org_parent,
+      </if>
+      <if test="orgLevel != null">
+        org_level,
+      </if>
+      <if test="dataPermission != null">
+        data_permission,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="memo != null">
+        memo,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateUser != null">
+        update_user,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="cityId != null">
+        #{cityId,jdbcType=VARCHAR},
+      </if>
+      <if test="orgName != null">
+        #{orgName,jdbcType=VARCHAR},
+      </if>
+      <if test="orgNo != null">
+        #{orgNo,jdbcType=VARCHAR},
+      </if>
+      <if test="orgParent != null">
+        #{orgParent,jdbcType=INTEGER},
+      </if>
+      <if test="orgLevel != null">
+        #{orgLevel,jdbcType=INTEGER},
+      </if>
+      <if test="dataPermission != null">
+        #{dataPermission,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="memo != null">
+        #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null">
+        #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.chelaile.auth.model.entity.SysOrgExample" resultType="java.lang.Long">
+    select count(*) from sys_org
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update sys_org
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.cityId != null">
+        city_id = #{record.cityId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orgName != null">
+        org_name = #{record.orgName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orgNo != null">
+        org_no = #{record.orgNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orgParent != null">
+        org_parent = #{record.orgParent,jdbcType=INTEGER},
+      </if>
+      <if test="record.orgLevel != null">
+        org_level = #{record.orgLevel,jdbcType=INTEGER},
+      </if>
+      <if test="record.dataPermission != null">
+        data_permission = #{record.dataPermission,jdbcType=INTEGER},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.memo != null">
+        memo = #{record.memo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateUser != null">
+        update_user = #{record.updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update sys_org
+    set id = #{record.id,jdbcType=INTEGER},
+      city_id = #{record.cityId,jdbcType=VARCHAR},
+      org_name = #{record.orgName,jdbcType=VARCHAR},
+      org_no = #{record.orgNo,jdbcType=VARCHAR},
+      org_parent = #{record.orgParent,jdbcType=INTEGER},
+      org_level = #{record.orgLevel,jdbcType=INTEGER},
+      data_permission = #{record.dataPermission,jdbcType=INTEGER},
+      status = #{record.status,jdbcType=INTEGER},
+      memo = #{record.memo,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_user = #{record.updateUser,jdbcType=VARCHAR},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.chelaile.auth.model.entity.SysOrg">
+    update sys_org
+    <set>
+      <if test="cityId != null">
+        city_id = #{cityId,jdbcType=VARCHAR},
+      </if>
+      <if test="orgName != null">
+        org_name = #{orgName,jdbcType=VARCHAR},
+      </if>
+      <if test="orgNo != null">
+        org_no = #{orgNo,jdbcType=VARCHAR},
+      </if>
+      <if test="orgParent != null">
+        org_parent = #{orgParent,jdbcType=INTEGER},
+      </if>
+      <if test="orgLevel != null">
+        org_level = #{orgLevel,jdbcType=INTEGER},
+      </if>
+      <if test="dataPermission != null">
+        data_permission = #{dataPermission,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="memo != null">
+        memo = #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null">
+        update_user = #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.chelaile.auth.model.entity.SysOrg">
+    update sys_org
+    set city_id = #{cityId,jdbcType=VARCHAR},
+      org_name = #{orgName,jdbcType=VARCHAR},
+      org_no = #{orgNo,jdbcType=VARCHAR},
+      org_parent = #{orgParent,jdbcType=INTEGER},
+      org_level = #{orgLevel,jdbcType=INTEGER},
+      data_permission = #{dataPermission,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      memo = #{memo,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_user = #{updateUser,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+    <!--加载配置文件，为下面读取数据库信息准备-->
+    <properties resource="application.yml" />
+
+    <context id="Mysql" targetRuntime="MyBatis3" defaultModelType="flat">
+
+        <!--<plugin type="tk.mybatis.mapper.generator.MapperPlugin">
+            <property name="mappers" value="com.core.base.MyMapper" />
+            &lt;!&ndash;caseSensitive默认false，当数据库表名区分大小写时，可以将该属性设置为true&ndash;&gt;
+            <property name="caseSensitive" value="false"/>
+        </plugin>-->
+
+        <!-- 阻止生成自动注释 -->
+        <commentGenerator>
+            <property name="javaFileEncoding" value="UTF-8"/>
+            <property name="suppressDate" value="true"/>
+            <property name="suppressAllComments" value="true"/>
+        </commentGenerator>
+
+        <!--数据库链接地址账号密码-->
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                        connectionURL="jdbc:mysql://localhost:3306/tie?useUnicode=true&amp;characterEncoding=utf8&amp;characterSetResults=utf8"
+                        userId="root"
+                        password="root">
+        </jdbcConnection>
+
+        <javaTypeResolver>
+            <property name="forceBigDecimals" value="false"/>
+        </javaTypeResolver>
+
+        <!--生成Model类存放位置-->
+        <javaModelGenerator targetPackage="com.chelaile.auth.model.entity" targetProject="src/main/java">
+            <property name="enableSubPackages" value="true"/>
+            <property name="trimStrings" value="false"/>
+            <property name="constructorBased" value="false"/>
+        </javaModelGenerator>
+
+        <!--生成映射文件存放位置-->
+        <sqlMapGenerator targetPackage="com.chelaile.auth.dao" targetProject="src/main/java">
+            <property name="enableSubPackages" value="true"/>
+        </sqlMapGenerator>
+
+        <!--生成Dao类存放位置-->
+        <!-- 客户端代码，生成易于使用的针对Model对象和XML配置文件 的代码
+                type="ANNOTATEDMAPPER",生成Java Model 和基于注解的Mapper对象
+                type="XMLMAPPER",生成SQLMap XML文件和独立的Mapper接口
+        -->
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.chelaile.auth.dao" targetProject="src/main/java">
+            <property name="enableExtendIDao" value="true"/>
+            <!-- iDao 接口名(包含包结构), 在 enableExtendIDao 为 true时使用 -->
+            <property name="iDaoFullName" value="com.chelaile.base.BaseDao"/>
+            <!-- 是否自动生成Service -->
+            <property name="enableCreateService" value="true"/>
+            <!-- 生成的Service接口路径 -->
+            <property name="serviceIfaceTargetPackage" value="com.chelaile.auth.service"/>
+            <!-- 生成的Service实现接口口径-->
+            <property name="serviceImplTargetPackage" value="com.chelaile.auth.service.impl"/>
+            <!--
+             定义BaseService 抽象类
+             @Service("tDispatcherDuteExecService")
+             extends BaseService<TDispatcherDuteExecDODao, TDispatcherDuteExecDOExample, TDispatcherDuteExecDO, Long> implements TDispatcherDuteExecService  -->
+            <property name="baseServiceFullName" value="com.chelaile.base.BaseServiceImpl"/>
+            <!--
+            定义IService 接口类
+            IService<TDispatcherDuteExecDODao, TDispatcherDuteExecDOExample, TDispatcherDuteExecDO, Long> -->
+            <property name="iServiceFullName" value="com.chelaile.base.BaseService"/>
+        </javaClientGenerator>
+
+        <!--生成对应表及类名 去掉Mybatis Generator生成的一堆 example -->
+
+
+       <!--<table tableName="sys_auth" domainObjectName="SysAuth">
+        </table>
+        <table tableName="sys_log" domainObjectName="SysLog">
+            <columnOverride column="operate_time" javaType="String"></columnOverride>
+        </table>
+        <table tableName="sys_menu" domainObjectName="SysMenu">
+            <columnOverride column="create_time" javaType="String"></columnOverride>
+            <columnOverride column="update_time" javaType="String"></columnOverride>
+        </table>
+        <table tableName="sys_menu_auth" domainObjectName="SysMenuAuth">
+        </table>
+        <table tableName="sys_org" domainObjectName="SysOrg">
+            <columnOverride column="create_time" javaType="String"></columnOverride>
+            <columnOverride column="update_time" javaType="String"></columnOverride>
+        </table>
+        <table tableName="sys_org_menu" domainObjectName="SysOrgMenu">
+        </table>
+        <table tableName="sys_user" domainObjectName="SysUser">
+            <columnOverride column="create_time" javaType="String"></columnOverride>
+            <columnOverride column="update_time" javaType="String"></columnOverride>
+            <columnOverride column="last_login_time" javaType="String"></columnOverride>
+            <columnOverride column="effective_time" javaType="String"></columnOverride>
+        </table>
+        <table tableName="sys_user_auth" domainObjectName="SysUserAuth">
+        </table>
+        <table tableName="sys_user_org" domainObjectName="SysUserOrg">
+        </table>
+        <table tableName="sys_user_org_menu" domainObjectName="SysUserOrgMenu">
+        </table>-->
+
+
+        <!--  <table tableName="user_info" domainObjectName="UserInfo">
+              <columnOverride column="answer_time" javaType="String"></columnOverride>
+          </table>
+          -->
+      </context>
+  </generatorConfiguration>

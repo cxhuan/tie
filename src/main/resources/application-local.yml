@@ -1,0 +1,30 @@
+#是否需要验证码
+env:
+  verify-code: false
+
+
+###redis相关信息###
+#redis的服务器地址
+cll:
+  redis:
+    auth:
+      host: 120.26.41.14
+      port: 6379
+      password: 123
+      database: 0
+    busms:
+      host: 120.26.41.14
+      port: 6379
+      password: 8N5it7Ly2Y0wzFn
+      database: 9
+
+
+###mysql相关信息###
+db:
+  url: jdbc:mysql://localhost:3306/tie?useUnicode=true&characterEncoding=utf8&characterSetResults=utf8
+  username: root
+  password: root
+
+
+
+

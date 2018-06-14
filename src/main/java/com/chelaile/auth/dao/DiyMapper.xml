@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chelaile.auth.dao.DiyMapper">
+    <resultMap id="MenuBaseResultMap" type="com.chelaile.auth.model.entity.SysMenu">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="menu_name" jdbcType="VARCHAR" property="menuName" />
+        <result column="menu_icon" jdbcType="VARCHAR" property="menuIcon" />
+        <result column="menu_url" jdbcType="VARCHAR" property="menuUrl" />
+        <result column="menu_level" jdbcType="INTEGER" property="menuLevel" />
+        <result column="menu_order" jdbcType="INTEGER" property="menuOrder" />
+        <result column="parent_id" jdbcType="INTEGER" property="parentId" />
+        <result column="menu_status" jdbcType="INTEGER" property="menuStatus" />
+        <result column="memo" jdbcType="VARCHAR" property="memo" />
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="update_user" jdbcType="VARCHAR" property="updateUser" />
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    </resultMap>
+
+    <sql id="Menu_Base_Column_List">
+        t.id, t.menu_name, t.menu_icon, t.menu_url, t.menu_level, t.menu_order, t.parent_id, t.menu_status,
+        t.memo, t.create_time, t.update_user, t.update_time
+    </sql>
+
+    <select id="getMenuByUserIdAndOrgId" parameterType="map" resultMap="MenuBaseResultMap" useCache="false">
+        SELECT
+        <include refid="Menu_Base_Column_List" />
+        FROM sys_menu t,sys_user_org_menu k
+        WHERE t.id=k.menu_id
+        <if test="status != null and status != ''">
+            AND t.menu_status = #{status,jdbcType=INTEGER}
+        </if>
+        AND k.user_id = #{userId}
+        AND k.org_id = #{orgId}
+    </select>
+
+    <select id="getMenuByOrgId" parameterType="map" resultMap="MenuBaseResultMap" useCache="false">
+        SELECT
+        <include refid="Menu_Base_Column_List" />
+        FROM sys_menu t,sys_org_menu k
+        WHERE t.id=k.menu_id
+        AND k.org_id = #{orgId}
+        <if test="status != null and status != ''">
+            AND t.menu_status = #{status,jdbcType=INTEGER}
+        </if>
+    </select>
+
+
+    <resultMap id="OrgBaseResultMap" type="com.chelaile.auth.model.entity.SysOrg">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="city_id" jdbcType="VARCHAR" property="cityId" />
+        <result column="org_name" jdbcType="VARCHAR" property="orgName" />
+        <result column="org_no" jdbcType="VARCHAR" property="orgNo" />
+        <result column="org_parent" jdbcType="INTEGER" property="orgParent" />
+        <result column="org_level" jdbcType="INTEGER" property="orgLevel" />
+        <result column="data_permission" jdbcType="INTEGER" property="dataPermission" />
+        <result column="status" jdbcType="INTEGER" property="status" />
+        <result column="memo" jdbcType="VARCHAR" property="memo" />
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="update_user" jdbcType="VARCHAR" property="updateUser" />
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    </resultMap>
+    <sql id="Org_Base_Column_List">
+        t.id, t.city_id, t.org_name, t.org_no, t.org_parent, t.org_level, t.data_permission, t.status, t.memo,
+        t.create_time, t.update_user, t.update_time
+    </sql>
+    <select id="getOrgByUser" parameterType="java.lang.Integer" resultMap="OrgBaseResultMap"
+            useCache="false">
+        SELECT
+        <include refid="Org_Base_Column_List" />
+        FROM sys_org t,sys_user_org k
+        WHERE t.id = k.org_id
+        AND t.status = 1
+        AND k.user_id= #{userId}
+        ORDER BY t.org_level ASC,t.id ASC
+    </select>
+    <select id="getOrgByMenuId" parameterType="java.lang.Integer" resultMap="OrgBaseResultMap"
+            useCache="false">
+        SELECT
+        <include refid="Org_Base_Column_List" />
+        FROM sys_org t,
+        sys_org_menu k
+        WHERE t.id = k.org_id
+        AND k.menu_id= #{menuId}
+    </select>
+
+
+    <resultMap id="UserBaseResultMap" type="com.chelaile.auth.model.entity.SysUser">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="user_account" jdbcType="VARCHAR" property="userAccount" />
+        <result column="user_name" jdbcType="VARCHAR" property="userName" />
+        <result column="user_password" jdbcType="VARCHAR" property="userPassword" />
+        <result column="phone" jdbcType="VARCHAR" property="phone" />
+        <result column="email" jdbcType="VARCHAR" property="email" />
+        <result column="company" jdbcType="VARCHAR" property="company" />
+        <result column="user_type" jdbcType="INTEGER" property="userType" />
+        <result column="status" jdbcType="INTEGER" property="status" />
+        <result column="memo" jdbcType="VARCHAR" property="memo" />
+        <result column="create_user" jdbcType="VARCHAR" property="createUser" />
+        <result column="update_user" jdbcType="VARCHAR" property="updateUser" />
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+        <result column="last_login_ip" jdbcType="VARCHAR" property="lastLoginIp" />
+        <result column="last_login_time" jdbcType="TIMESTAMP" property="lastLoginTime" />
+        <result column="effective_time" jdbcType="TIMESTAMP" property="effectiveTime" />
+    </resultMap>
+    <sql id="User_Base_Column_List">
+        t.id, t.user_account, t.user_name, t.user_password, t.phone, t.email, t.company, t.user_type, t.status,
+        t.memo, t.create_user, t.update_user, t.create_time, t.update_time, t.last_login_ip, t.last_login_time,
+        t.effective_time
+    </sql>
+
+    <select id="getSysUserByAuthId" parameterType="java.lang.Integer"
+            resultMap="UserBaseResultMap" useCache="false">
+        SELECT
+        <include refid="User_Base_Column_List" />
+        FROM sys_user t,sys_user_auth k
+        WHERE t.id = k.user_id
+        AND k.auth_id = #{authId}
+    </select>
+
+    <resultMap id="AuthBaseResultMap" type="com.chelaile.auth.model.entity.SysAuth">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="auth_name" jdbcType="VARCHAR" property="authName" />
+        <result column="auth_url" jdbcType="VARCHAR" property="authUrl" />
+        <result column="global_blacklist" jdbcType="INTEGER" property="globalBlacklist" />
+        <result column="memo" jdbcType="VARCHAR" property="memo" />
+    </resultMap>
+    <sql id="Auth_Base_Column_List">
+        t.id, t.auth_name, t.auth_url, t.global_blacklist, t.memo
+    </sql>
+
+    <select id="getSysAuthByMenuId" parameterType="java.lang.Integer"
+            resultMap="AuthBaseResultMap" useCache="false">
+        SELECT
+        <include refid="Auth_Base_Column_List" />
+        FROM sys_auth t,sys_menu_auth k
+        WHERE t.id= k.auth_id
+        AND k.menu_id = #{menuId}
+    </select>
+
+    <select id="getSysAuthByUserId" parameterType="java.lang.Integer"
+            resultMap="AuthBaseResultMap" useCache="false">
+        SELECT
+        <include refid="Auth_Base_Column_List" />
+        FROM sys_auth t,sys_user_auth k
+        WHERE t.id = k.auth_id
+        AND t.global_blacklist = 1
+        AND k.user_id = #{userId}
+    </select>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</mapper>

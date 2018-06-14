@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Configuration status="WARN" shutdownHook="disable">
+<properties>
+    <property name="LOG_HOME">/data/logs/mpdemo</property>
+    <!-- 日志备份目录 -->
+    <property name="BACKUP_HOME">${LOG_HOME}/history</property>
+</properties>
+<Appenders>
+    <Console name="Console" target="SYSTEM_OUT">
+        <PatternLayout pattern="[%-5p] %d{yyyy-MM-dd HH:mm:ss} %C{1}@(%F:%L):%m%n" />
+    </Console>
+
+    <RollingFile name="error" fileName="${LOG_HOME}/error.log"
+                 filePattern="${BACKUP_HOME}/mpdemo-%d{yyyy-MM-dd}.log.gz">
+        <PatternLayout pattern="[%-5p] %d{yyyy-MM-dd HH:mm:ss} %class{36} %L %M - %msg%xEx%n"/>
+        <SizeBasedTriggeringPolicy  size="20MB"/>
+    </RollingFile>
+
+    <RollingFile name="info" fileName="${LOG_HOME}/info.log"
+                 filePattern="${BACKUP_HOME}/mpdemo.log.%d{yyyy-MM-dd}">
+        <PatternLayout pattern="[%-5p] %d{yyyy-MM-dd HH:mm:ss} %class{36} %L %M - %msg%xEx%n"></PatternLayout>
+        <TimeBasedTriggeringPolicy />
+    </RollingFile>
+
+</Appenders>
+<Loggers>
+    <root level="error">
+        <appender-ref ref="Console" />
+    </root>
+    <logger name="error" level="info" >
+        <appender-ref ref="error"/>
+    </logger>
+    <logger name="info" level="info" >
+        <appender-ref ref="info"/>
+    </logger>
+
+</Loggers>
+</Configuration>
